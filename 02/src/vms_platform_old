@@ -1,0 +1,103 @@
+### VM Web variables
+variable "vm_web_name" {
+  type        = string
+  default     = "netology-develop-platform-web"
+  description = "Name of the VM web instance"
+}
+
+variable "vm_web_platform_id" {
+  type        = string
+  default     = "standard-v3"
+  description = "Platform ID for the VM web instance"
+}
+
+variable "vm_web_cores" {
+  type        = number
+  default     = 2
+  description = "Number of CPU cores for the VM web instance"
+}
+
+variable "vm_web_memory" {
+  type        = number
+  default     = 2
+  description = "Amount of memory in GB for the VM web instance"
+}
+
+variable "vm_web_core_fraction" {
+  type        = number
+  default     = 20
+  description = "CPU core fraction for the VM web instance"
+}
+
+variable "vm_web_disk_type" {
+  type        = string
+  default     = "network-hdd"
+  description = "Type of the boot disk for the VM web instance"
+}
+
+variable "vm_web_disk_size" {
+  type        = number
+  default     = 10
+  description = "Size of the boot disk in GB for the VM web instance"
+}
+
+variable "vm_web_preemptible" {
+  type        = bool
+  default     = true
+  description = "Whether the VM web instance is preemptible"
+}
+
+variable "vm_web_nat" {
+  type        = bool
+  default     = true
+  description = "Whether to enable NAT for the VM web instance"
+}
+
+variable "vm_web_serial_port_enable" {
+  type        = number
+  default     = 1
+  description = "Enable serial port for the VM web instance"
+}
+
+variable "vm_web_image_family" {
+  type        = string
+  default     = "ubuntu-2004-lts"
+  description = "Image family for the VM web instance"
+}
+
+### VM DB variables
+variable "vm_db_name" {
+  type        = string
+  default     = "netology-develop-platform-db"
+  description = "Name of the VM database instance"
+}
+
+variable "vm_db_platform_id" {
+  type        = string
+  default     = "standard-v3"
+  description = "Platform ID for the VM database instance"
+}
+
+variable "vm_db_zone" {
+  type        = string
+  default     = "ru-central1-b"
+  description = "Zone for the VM database instance"
+}
+
+variable "vm_db_cores" {
+  type        = number
+  default     = 2
+  description = "Number of CPU cores for the VM database instance"
+}
+
+variable "vm_db_memory" {
+  type        = number
+  default     = 2
+  description = "Amount of memory in GB for the VM database instance"
+}
+
+variable "vm_db_core_fraction" {
+  type        = number
+  default     = 20
+  description = "CPU core fraction for the VM database instance"
+}
