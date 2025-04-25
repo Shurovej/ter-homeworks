@@ -28,17 +28,16 @@ variable "default_cidr" {
   description = "Default CIDR block for the subnet"
 }
 
-### VM Naming Variables
 variable "vm_web_name" {
   type        = string
-  default     = "platform-web"
-  description = "Name prefix for web VM"
+  default     = "netology-develop-platform-web"  # Полное имя без зоны
+  description = "Full name for web VM"
 }
 
 variable "vm_db_name" {
   type        = string
-  default     = "platform-db"
-  description = "Name prefix for db VM"
+  default     = "netology-develop-platform-db"   # Базовое имя без зоны
+  description = "Base name for db VM"
 }
 
 variable "vm_db_zone" {
@@ -47,7 +46,7 @@ variable "vm_db_zone" {
   description = "Zone for DB VM"
 }
 
-### VM Resources Configuration (новая map-переменная)
+### VM Resources Configuration
 variable "vms_resources" {
   type = map(object({
     cores         = number
@@ -61,7 +60,7 @@ variable "vms_resources" {
   description = "Resources configuration for VMs"
 }
 
-### Common Metadata (новая переменная)
+### Common Metadata
 variable "metadata" {
   type = object({
     serial-port-enable = number

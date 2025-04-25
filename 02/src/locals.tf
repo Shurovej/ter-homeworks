@@ -1,7 +1,7 @@
 locals {
-  # Сохраняем старые имена, которые уже используются в инфраструктуре
-  vm_web_name = "develop-netology-develop-platform-web"
-  vm_db_name  = "develop-netology-develop-platform-db-ru-central1-b"
+  # Правильная интерполяция с сохранением текущего формата имен
+  vm_web_name = "${var.vpc_name}-${var.vm_web_name}"
+  vm_db_name  = "${var.vpc_name}-${var.vm_db_name}-${var.vm_db_zone}"
   
   common_vm_settings = {
     platform_id   = "standard-v3"
