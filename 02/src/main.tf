@@ -50,6 +50,13 @@ resource "yandex_compute_instance" "platform" {
   }
 
   metadata = var.metadata
+
+  lifecycle {
+    ignore_changes = [
+      network_interface[0].nat_ip_address,  # Игнорировать изменения IP-адреса
+      name                                 # Опционально: если хотите сохранить текущее имя
+    ]
+  }
 }
 
 # DB VM
@@ -82,4 +89,11 @@ resource "yandex_compute_instance" "platform_db" {
   }
 
   metadata = var.metadata
+
+        lifecycle {
+    ignore_changes = [
+      network_interface[0].nat_ip_address,  # Игнорировать изменения IP-адреса
+      name                                 # Опционально: если хотите сохранить текущее имя
+    ]
+  }
 }
