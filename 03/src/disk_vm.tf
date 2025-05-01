@@ -1,17 +1,18 @@
 resource "yandex_compute_disk" "storage_disks" {
-  count = 3
-  name  = "storage-disk-${count.index + 1}"
-  type  = "network-hdd"
-  zone  = var.default_zone
-  size  = 1 # GB
+  count = var.storage_settings.disks_count
+  
+  name = "${var.storage_settings.name}-disk-${count.index + 1}"
+  type = var.storage_settings.disk_type
+  zone = var.default_zone
+  size = var.storage_settings.disk_size_gb
 }
 
 resource "yandex_compute_instance" "storage" {
-  name = "storage"
+  name = var.storage_settings.name
 
   resources {
-    cores  = 2
-    memory = 2
+    cores  = var.storage_settings.vm_resources.cores
+    memory = var.storage_settings.vm_resources.memory
   }
 
   boot_disk {
@@ -23,7 +24,7 @@ resource "yandex_compute_instance" "storage" {
   network_interface {
     subnet_id          = yandex_vpc_subnet.develop.id
     security_group_ids = [yandex_vpc_security_group.example.id]
-    nat                = true # Включаем публичный IP
+    nat                = var.network_settings.enable_nat
   }
 
   metadata = {

@@ -9,7 +9,9 @@ ${vm.name} ansible_host=${vm.network_interface[0].nat_ip_address}
 %{ endfor ~}
 
 [storage]
-${storage_vm.name} ansible_host=${storage_vm.network_interface[0].nat_ip_address}
+%{ for vm in storage_vms ~}
+${vm.name} ansible_host=${vm.network_interface[0].nat_ip_address}
+%{ endfor ~}
 
 [all:vars]
 ansible_ssh_user=${ssh_user}

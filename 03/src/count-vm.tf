@@ -1,10 +1,10 @@
 resource "yandex_compute_instance" "web" {
-  count = 2
-  name  = "web-${count.index + 1}"
+  count = var.web_vms_settings.count
+  name  = "${var.web_vms_settings.name_prefix}-${count.index + 1}"
 
   resources {
-    cores  = var.vm_resources.cores
-    memory = var.vm_resources.memory
+    cores  = var.web_vms_settings.resources.cores
+    memory = var.web_vms_settings.resources.memory
   }
 
   boot_disk {
@@ -16,7 +16,7 @@ resource "yandex_compute_instance" "web" {
   network_interface {
     subnet_id          = yandex_vpc_subnet.develop.id
     security_group_ids = [yandex_vpc_security_group.example.id]
-    nat                = true # Включаем публичный IP
+    nat                = var.network_settings.enable_nat
   }
 
   metadata = {

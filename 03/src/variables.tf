@@ -1,42 +1,40 @@
-###cloud vars
 variable "token" {
   type        = string
-  description = "OAuth-token; https://cloud.yandex.ru/docs/iam/concepts/authorization/oauth-token"
+  description = "OAuth-token for Yandex Cloud authorization"
 }
 
 variable "cloud_id" {
   type        = string
-  description = "https://cloud.yandex.ru/docs/resource-manager/operations/cloud/get-id"
+  description = "Yandex Cloud ID"
 }
 
 variable "folder_id" {
   type        = string
-  description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
+  description = "Folder ID in Yandex Cloud"
 }
 
 variable "default_zone" {
   type        = string
   default     = "ru-central1-a"
-  description = "https://cloud.yandex.ru/docs/overview/concepts/geo-scope"
+  description = "Default availability zone"
 }
 
 variable "default_cidr" {
   type        = list(string)
   default     = ["10.0.1.0/24"]
-  description = "https://cloud.yandex.ru/docs/vpc/operations/subnet-create"
+  description = "Default CIDR block for subnet"
 }
 
 variable "vpc_name" {
   type        = string
   default     = "develop"
-  description = "VPC network&subnet name"
+  description = "VPC network name"
 }
 
-### VM vars
 variable "vm_image_family" {
   type        = string
-  description = "Family of the image to use for VMs"
   default     = "ubuntu-2004-lts"
+  description = "VM image family"
 }
 
 variable "vm_resources" {
@@ -44,7 +42,6 @@ variable "vm_resources" {
     cores  = number
     memory = number
   })
-  description = "Resources for VMs"
   default = {
     cores  = 2
     memory = 2
@@ -55,40 +52,103 @@ variable "vm_metadata" {
   type = object({
     ssh_user = string
   })
-  description = "Metadata for VMs"
   default = {
     ssh_user = "ubuntu"
   }
 }
 
-variable "each_vm" {
+variable "db_vms_settings" {
   type = list(object({
     vm_name     = string
     cpu         = number
     ram         = number
     disk_volume = number
-    disk_type   = optional(string, "network-hdd")
+    disk_type   = string
   }))
-  description = "Parameters for DB VMs"
   default = [
     {
-      vm_name     = "main"
-      cpu         = 4
-      ram         = 8
-      disk_volume = 20
+      vm_name     = "main",
+      cpu         = 4,
+      ram         = 8,
+      disk_volume = 20,
       disk_type   = "network-hdd"
     },
     {
-      vm_name     = "replica"
-      cpu         = 2
-      ram         = 4
-      disk_volume = 10
+      vm_name     = "replica",
+      cpu         = 2,
+      ram         = 4,
+      disk_volume = 10,
+      disk_type   = "network-hdd"
     }
   ]
 }
 
 variable "ssh_public_key_path" {
   type        = string
-  description = "Path to SSH public key"
   default     = "~/.ssh/id_rsa.pub"
+  description = "Path to SSH public key"
+}
+
+variable "storage_settings" {
+  type = object({
+    name         = string
+    disks_count  = number
+    disk_size_gb = number
+    disk_type    = string
+    vm_resources = object({
+      cores  = number
+      memory = number
+    })
+  })
+  default = {
+    name         = "storage",
+    disks_count  = 3,
+    disk_size_gb = 1,
+    disk_type    = "network-hdd",
+    vm_resources = {
+      cores  = 2,
+      memory = 2
+    }
+  }
+}
+
+variable "web_vms_settings" {
+  type = object({
+    count       = number
+    name_prefix = string
+    resources   = object({
+      cores  = number
+      memory = number
+    })
+  })
+  default = {
+    count       = 2,
+    name_prefix = "web",
+    resources   = {
+      cores  = 2,
+      memory = 2
+    }
+  }
+}
+
+variable "network_settings" {
+  type = object({
+    vpc_name    = string
+    subnet_name = string
+    zone        = string
+    cidr_blocks = list(string)
+    enable_nat  = bool
+  })
+  default = {
+    vpc_name    = "develop",
+    subnet_name = "develop",
+    zone        = "ru-central1-a",
+    cidr_blocks = ["10.0.1.0/24"],
+    enable_nat  = true
+  }
+}
+variable "inventory_filename" {
+  type        = string
+  default     = "inventory.ini"
+  description = "Name for generated Ansible inventory file"
 }
